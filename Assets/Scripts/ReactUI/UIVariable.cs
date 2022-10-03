@@ -503,8 +503,4 @@ namespace ReactUI
         #endregion
         
     }
-
-    public class UIVariableBind : MonoBehaviour
-    {
-    }
 }

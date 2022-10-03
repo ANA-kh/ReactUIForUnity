@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CodeReadingNote">
-    <topics />
+    <topics>
+      <topic>
+        <name>note</name>
+        <note />
+        <updatedAt>2022-09-25 21:31:38</updatedAt>
+        <topicLines>
+          <topicLine>
+            <line>8</line>
+            <inProject>true</inProject>
+            <url>file://$PROJECT_DIR$/Assets/Scripts/UIVariableTable.cs</url>
+            <note>UIVariableTable持有所有UIVariable并序列化； 继承UIVariableBind的组件中只序列化绑定的UIVariable名字，并通过FindVariable获取UIVariable；
+保证UIVariable只序列化一份；</note>
+            <relativePath>Assets/Scripts/UIVariableTable.cs</relativePath>
+          </topicLine>
+        </topicLines>
+      </topic>
+    </topics>
     <state lastExportDir="" lastImportDir="" />
   </component>
 </project>
