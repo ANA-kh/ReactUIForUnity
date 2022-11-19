@@ -62,14 +62,14 @@ internal sealed class UIVariableTableEditor : Editor
 			foreach(UIVariable v in val.Variables)
 			{
 				sb.AppendLine("[AutoBindVariable]");
-				sb.Append("UIVariable var_").Append(v.Name).AppendLine(";");
+				sb.Append("UIVariable " + UIVariableBindHelper.prefix_var).Append(v.Name).AppendLine(";");
 			}
 			UIItemVariable[] bindGOList = val.GetComponentsInChildren<UIItemVariable>();
 			foreach(UIItemVariable bindGO in bindGOList)
 			{
 				sb.AppendLine("[AutoBindGameObject]");
 				string typeName = bindGO.GetEUIItemExportTypeCorrespondOriginTypeName(bindGO.ExportType,bindGO);
-				sb.Append(typeName).Append(" go_").Append(bindGO.GetExportedName()).AppendLine(";");
+				sb.Append(typeName).Append(" "+UIVariableBindHelper.prefix_gameobject).Append(bindGO.GetExportedName()).AppendLine(";");
 			}
 			GUIUtility.systemCopyBuffer = sb.ToString();
 		}

@@ -16,7 +16,7 @@ namespace ReactUI
         private string format;
 
         [SerializeField]
-        //[VariableName(UIVariableType.Boolean, UIVariableType.Integer, UIVariableType.Float, UIVariableType.String, UIVariableType.Array)]
+        [VariableName(UIVariableType.Boolean, UIVariableType.Integer, UIVariableType.Float, UIVariableType.String, UIVariableType.Array)]
         private string[] paramBinds;
 
         [SerializeField] 
@@ -114,13 +114,13 @@ namespace ReactUI
                 {
                     return;
                 }
-                UIVariable uIVariable = m_bindVariable[0];
-                if (uIVariable != null)
+                UIVariable variable = m_bindVariable[0];
+                if (variable != null)
                 {
-                    if (uIVariable.Type == UIVariableType.Array)
+                    if (variable.Type == UIVariableType.Array)
                     {
                         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                        var objList = uIVariable.GetArray();
+                        var objList = variable.GetArray();
                         if (objList != null && objList.Count > 0)
                         {
                             for (int i = 0; i < objList.Count; i++)
@@ -140,7 +140,7 @@ namespace ReactUI
                     }
                     else
                     {
-                        object valueObject = uIVariable.ValueObject;
+                        object valueObject = variable.ValueObject;
                         if (valueObject != null)
                         {
                             if (m_text)
