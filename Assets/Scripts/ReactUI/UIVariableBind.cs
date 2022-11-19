@@ -30,13 +30,14 @@ namespace ReactUI
                 isInited = true;
                 FindVarTable();
                 BindVariables();
+                //打印时间
             }
         }
         
         /// <summary>
         /// 通过variableName在绑定的variableTable中查找变量
         /// </summary>
-        /// <param name="name">variableName</param>
+        /// <param name="name">variableName 名字可能包含其所属表名用_markCustomParentVariableTable开头</param>
         /// <returns></returns>
         public UIVariable FindVariable(string name)
         {
@@ -64,6 +65,11 @@ namespace ReactUI
             }
             return null;
         }
+        /// <summary>
+        /// 通过名字查找自己指定的variableTable
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UIVariableTable FindCustomParentTable(string name)
         {
             Transform t = this.transform;
@@ -81,6 +87,9 @@ namespace ReactUI
             }
             return null;
         }
+        /// <summary>
+        /// 获取默认variableTable
+        /// </summary>
         private void FindVarTable()
         {
             if (variableTable == null)

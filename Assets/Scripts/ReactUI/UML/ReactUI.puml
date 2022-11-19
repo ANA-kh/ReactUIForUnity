@@ -1,0 +1,53 @@
+﻿@startuml
+
+enum UIVariableType
+{
+Boolean = 0,
+Integer = 1,
+Float = 2 ,
+String = 3,
+Array = 4,
+Object = 5,
+}
+class UIVariable
+{
+-string name
+-UIVariableType type
+-UIVariableBind[] binderList
++Action OnValueChanged()
++void AddBind(UIVariableBind bind)
++void RemoveBind(UIVariableBind bind)
++Object GetValue()
+}
+class UIVariableTable
+{
+-UIVariable[] variables
+-Dictionary<string, UIVariable> varMap
++UIVariable FindVariable(string name)
+}
+abstract class UIVariableBind
+{
+-UIVariableTable _variableTable
++UIVariableTable FindCustomParentTable(string name)
++UIVariable FindVariable(string name)
+#{abstract} void BindVariables()
+#{abstract} void UnbindVariables()
+}
+class UIVariableBindText
+{
+-string[] paramBinds;//持久化
+-UIVariable[] m_bindVariable
+#void BindVariables()
+#void UnbindVariables()
+-void RefreshText()
+}
+
+skinparam groupInheritance 2
+UIVariable o-left- UIVariableBind
+UIVariableTable o-down- UIVariable
+UIVariableBind *-- UIVariable
+UIVariableBind "1"*-up- UIVariableTable
+UIVariableBindText -up-|> UIVariableBind
+
+
+@enduml

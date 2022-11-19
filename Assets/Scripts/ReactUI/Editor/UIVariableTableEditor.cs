@@ -7,7 +7,11 @@ using UnityEngine.Assertions;
 using System.Collections.Generic;
 using System;
 using System.IO;
+using System.Text;
 
+/// <summary>
+/// VariableTable外观类
+/// </summary>
 [CustomEditor(typeof(UIVariableTable))]
 internal sealed class UIVariableTableEditor : Editor
 {
@@ -29,8 +33,12 @@ internal sealed class UIVariableTableEditor : Editor
 		{
 			propMap.Clear();
 			Init();
+			//打印时间
 		}
 		UIVariableTable val = (UIVariableTable)target;
+
+		#region 生成样板代码
+
 		if (GUILayout.Button("Sort"))
 		{
 			Undo.RecordObject(val, "Sort Variable Table");
@@ -39,23 +47,23 @@ internal sealed class UIVariableTableEditor : Editor
 			serializedObject.ApplyModifiedProperties();
 		}
 		if(GUILayout.Button("Generate C# code to clipboard"))
-        {
-			var sb = new System.Text.StringBuilder();
+		{
+			var sb = new StringBuilder();
 			foreach(UIVariable v in val.Variables)
-            {
+			{
 				sb.AppendLine("[AutoBindVariable]");
 				sb.Append("UIVariable var_").Append(v.Name).AppendLine(";");
-            }
+			}
 			GUIUtility.systemCopyBuffer = sb.ToString();
 		}
 		if(GUILayout.Button("Generate C# code to clipboard(with GameObject Bind)"))
-        {
-			var sb = new System.Text.StringBuilder();
+		{
+			var sb = new StringBuilder();
 			foreach(UIVariable v in val.Variables)
-            {
+			{
 				sb.AppendLine("[AutoBindVariable]");
 				sb.Append("UIVariable var_").Append(v.Name).AppendLine(";");
-            }
+			}
 			UIItemVariable[] bindGOList = val.GetComponentsInChildren<UIItemVariable>();
 			foreach(UIItemVariable bindGO in bindGOList)
 			{
@@ -65,6 +73,8 @@ internal sealed class UIVariableTableEditor : Editor
 			}
 			GUIUtility.systemCopyBuffer = sb.ToString();
 		}
+
+		#endregion
 	}
 
 	private void OnEnable()
