@@ -36,6 +36,12 @@ namespace ReactUI
         }
 
         private static Dictionary<Type, AutoBindForClass> _cacheBindProp = new Dictionary<Type, AutoBindForClass>();
+        
+        /*
+         TODO 突发奇想 考虑不使用运行时反射绑定，在非运行时通过反射生成绑定的样板代码参考UIHudLootView。
+        思路是反射获取名字，生成类似var_item = UIVariableTable.FindVariable("item") 代码;
+        或许有性能提升，待实验
+        */
         public static void AutoBind(object obj, GameObject view, Type baseClass = null)
         {
             var t = obj.GetType();
@@ -47,7 +53,8 @@ namespace ReactUI
                 _cacheBindProp.Add(t,autoBind);
             }
             
-            //实际的绑定controller  variableTable
+            //实际的绑定  controller->variableTable
+            //bind variable
             var vt = view.GetComponent<UIVariableTable>();
             if (vt != null)
             {
@@ -71,10 +78,86 @@ namespace ReactUI
                     }
                 }
             }
-            
-            //TODO bind event
-            
-            //bind  gameObject
+            //bind event
+            var et = view.GetComponent<UIEventTable>();
+            if (et != null)
+            {
+                for (int i = 0; i < autoBind.BindEvents.Count; i++)
+                {
+                    var evdata = autoBind.BindEvents[i];
+                    var method = evdata.Method;
+
+                    var del = Delegate.CreateDelegate(typeof(SignalDelegate), obj, method) as SignalDelegate;
+                    et.ListenEvent(evdata.EventName, del);
+                }
+            }
+            //bind gameObject
+            if (autoBind.BindGameObjects != null)
+            {
+                AutoBindGameObject(obj, view, autoBind.BindGameObjects);
+            }
+        }
+        
+        private static void AutoBindGameObject(object targetObject, GameObject rootObj, List<GameObjectBindData> bind)
+        {
+            var childItem = rootObj.GetComponentsInChildren<UIItemVariable>(true);
+
+            for (int i = 0; i < bind.Count; i++)
+            {
+                var bindData = bind[i];
+                var n = bindData.VarName;
+                UIItemVariable refItem = null;
+                for (int k = 0; k < childItem.Length; k++)
+                {
+                    var item = childItem[k];
+                    string itemName = string.IsNullOrEmpty(item.ExportName) ? item.name : item.ExportName;
+                    if (itemName == n)
+                    {
+                        refItem = childItem[k];
+                        break;
+                    }
+                }
+                if (refItem == null)
+                {
+                    Debug.LogError("AutoBindGameObject missed game object item:" + n);
+                    continue;
+                }
+                Type targetType = null;
+                if (bindData.Prop != null)
+                {
+                    targetType = bindData.Prop.PropertyType;
+                }
+                if (bindData.Field != null)
+                {
+                    targetType = bindData.Field.FieldType;
+                }
+                object value = null;
+                if (targetType == typeof(GameObject))
+                {
+                    value = refItem.gameObject;
+                }
+                else if (targetType == typeof(Transform))
+                {
+                    value = refItem.transform;
+                }
+                else
+                {
+                    value = refItem.GetComponent(targetType);
+                }
+
+                if (bindData.Prop != null)
+                {
+                    (bindData.Prop.GetSetMethod(true) ?? throw new ArgumentException("Property " + bindData.Prop.Name + " has no setter")).Invoke(targetObject, new object[1]
+                    {
+                        value
+                    });
+                }
+                if (bindData.Field != null)
+                {
+                    bindData.Field.SetValue(targetObject, value);
+                }
+
+            }
         }
 
         private static AutoBindForClass GenerateAutoBind(Type t, Type baseClass = null)
@@ -147,7 +230,7 @@ namespace ReactUI
             //bind fields
             foreach (var prop in fieldInfo)
             {
-                var bindAttr = prop.GetCustomAttributes<AutoBindVariableAttribute>();
+                var bindAttr = prop.GetCustomAttribute<AutoBindVariableAttribute>();
                 if (bindAttr != null)
                 {
                     var d = new VarBindData();
@@ -160,7 +243,7 @@ namespace ReactUI
                     autoBind.BindVars.Add(d);
                 }
 
-                var autoGo = prop.GetCustomAttributes<AutoBindGameObjectAttribute>();
+                var autoGo = prop.GetCustomAttribute<AutoBindGameObjectAttribute>();
                 if (autoGo != null)
                 {
                     var d = new GameObjectBindData();
@@ -178,23 +261,22 @@ namespace ReactUI
                     }
                     autoBind.BindGameObjects.Add(d);
                 }
-                
-                //bind events
-                for (int i = 0; i < methodInfo.Length; i++)
+            }
+            //bind events
+            for (int i = 0; i < methodInfo.Length; i++)
+            {
+                var info = methodInfo[i];
+                var attr = info.GetCustomAttribute<AutoBindEventAttribute>(true);
+                if (attr != null)
                 {
-                    var info = methodInfo[i];
-                    var attr = info.GetCustomAttribute<AutoBindEventAttribute>(true);
-                    if (attr != null)
+                    var d = new EventBindData();
+                    d.Method = info;
+                    d.EventName = info.Name;
+                    if (d.EventName.StartsWith(prefix_event))
                     {
-                        var d = new EventBindData();
-                        d.Method = info;
-                        d.EventName = info.Name;
-                        if (d.EventName.StartsWith(prefix_event))
-                        {
-                            d.EventName = d.EventName.Substring(prefix_event.Length);
-                        }
-                        autoBind.BindEvents.Add(d);
+                        d.EventName = d.EventName.Substring(prefix_event.Length);
                     }
+                    autoBind.BindEvents.Add(d);
                 }
             }
         }
