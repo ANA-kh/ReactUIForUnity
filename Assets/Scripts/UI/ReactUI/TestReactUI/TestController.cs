@@ -13,6 +13,14 @@ namespace ReactUI.TestReactUI
         UIVariable var_money;
         [AutoBindVariable]
         UIVariable var_item;
+        
+        [AutoBindEvent]
+        void event_onClickClose(params object[] args)
+        {
+            var flag = var_avtive.GetBoolean();
+            var_avtive.SetBoolean(!flag);
+        }
+        
 
         private void Awake()
         {
