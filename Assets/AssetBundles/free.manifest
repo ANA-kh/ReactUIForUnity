@@ -1,0 +1,83 @@
+ManifestFileVersion: 0
+CRC: 3475766035
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b41a8bbcf1374c10cbff51fa2eefa5ab
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f267fd2d8bcb1179236b6179ac5313bc
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Resources/Free/ButtonLargeRound.png
+- Assets/Resources/Free/BTN_Line_4PX_Small.png
+- Assets/Resources/Free/BTN_A3.png
+- Assets/Resources/Free/CIRCLE4PXMED.png
+- Assets/Resources/Free/E.png
+- Assets/Resources/Free/Sound.png
+- Assets/Resources/Free/World.png
+- Assets/Resources/Free/D.png
+- Assets/Resources/Free/Right BTN.png
+- Assets/Resources/Free/128.png
+- Assets/Resources/Free/64 Light.png
+- Assets/Resources/Free/Heart.png
+- Assets/Resources/Free/Messages.png
+- Assets/Resources/Free/CIRCLE4PXLAR.png
+- Assets/Resources/Free/CIRCLE4PXSMA.png
+- Assets/Resources/Free/32 Light.png
+- Assets/Resources/Free/B.png
+- Assets/Resources/Free/Divider.png
+- Assets/Resources/Free/Down BTN.png
+- Assets/Resources/Free/Right Arrow.png
+- Assets/Resources/Free/Coin.png
+- Assets/Resources/Free/64.png
+- Assets/Resources/Free/C.png
+- Assets/Resources/Free/Left Arrow.png
+- Assets/Resources/Free/Facebook 2.png
+- Assets/Resources/Free/Icon Sets.png
+- Assets/Resources/Free/BTN_Line_4PX_Medium.png
+- Assets/Resources/Free/Button_Large_A.png
+- Assets/Resources/Free/InputField.png
+- Assets/Resources/Free/CIRCLE2PXSMALL.png
+- Assets/Resources/Free/Down Arrow.png
+- Assets/Resources/Free/Star.png
+- Assets/Resources/Free/ButtonMediumRound.png
+- Assets/Resources/Free/CIRCLE2PXLAR.png
+- Assets/Resources/Free/Ranks.png
+- Assets/Resources/Free/X.png
+- Assets/Resources/Free/ButtonSmallRound.png
+- Assets/Resources/Free/Settings.png
+- Assets/Resources/Free/CIRCLE2PXMED.png
+- Assets/Resources/Free/BTN_Line_4PX_Large.png
+- Assets/Resources/Free/Facebook.png
+- Assets/Resources/Free/128 Light.png
+- Assets/Resources/Free/Button_Medium_A.png
+- Assets/Resources/Free/Up BTN.png
+- Assets/Resources/Free/A.png
+- Assets/Resources/Free/32 Light 2.png
+- Assets/Resources/Free/Up Arrow.png
+- Assets/Resources/Free/Add Icon.png
+- Assets/Resources/Free/Info.png
+- Assets/Resources/Free/64 Light 2.png
+- Assets/Resources/Free/Bell.png
+- Assets/Resources/Free/Missions.png
+- Assets/Resources/Free/Left BTN.png
+- Assets/Resources/Free/Inventory.png
+- Assets/Resources/Free/BTN_A1.png
+- Assets/Resources/Free/Music.png
+- Assets/Resources/Free/F.png
+- Assets/Resources/Free/Close BTN.png
+- Assets/Resources/Free/128 Light 2.png
+- Assets/Resources/Free/Lock.png
+- Assets/Resources/Free/Gem.png
+- Assets/Resources/Free/BTN_A2.png
+- Assets/Resources/Free/Button_Small_A.png
+- Assets/Resources/Free/Shop.png
+- Assets/Resources/Free/32.png
+Dependencies: []
