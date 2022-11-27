@@ -80,6 +80,10 @@ namespace ReactUI
 
         private float GetHeight(SerializedProperty P_0, int P_1)
         {
+            if (P_0.arraySize == 0)
+            {
+                return 0;
+            }
             SerializedProperty arrayElementAtIndex = P_0.GetArrayElementAtIndex(P_1);
             if (!arrayElementAtIndex.isExpanded)
             {
