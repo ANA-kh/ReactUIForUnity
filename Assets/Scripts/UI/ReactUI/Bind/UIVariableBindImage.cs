@@ -22,9 +22,10 @@ namespace ReactUI
 
         private Image _image;
         private RawImage _rawImage;
+        private bool _refreshImageOnInitial = true;
+        
         private UIVariable _imageVariable;
         private UIVariable _fillAmountVariable;
-        private bool _refreshImageOnInitial = true;
 
         protected override void BindVariables()
         {

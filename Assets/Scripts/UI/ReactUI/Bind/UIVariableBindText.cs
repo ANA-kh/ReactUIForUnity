@@ -22,10 +22,10 @@ namespace ReactUI
         [SerializeField] 
         private bool setTextNotKey;
         
-        private TextMeshProUGUI m_text;
-        private Text unityText;
+        private TextMeshProUGUI _text;
+        private Text _unityText;
 
-        private UIVariable[] m_bindVariable;
+        private UIVariable[] _bindVariable;
 
         public string Format
         {
@@ -45,12 +45,12 @@ namespace ReactUI
 
         protected override void BindVariables()
         {
-            Assert.IsNull(m_bindVariable);
+            Assert.IsNull(_bindVariable);
             if (paramBinds == null || paramBinds.Length <= 0)
             {
                 return;
             }
-            m_bindVariable = new UIVariable[paramBinds.Length];
+            _bindVariable = new UIVariable[paramBinds.Length];
             for (int i = 0; i < paramBinds.Length; i++)
             {
                 string text = paramBinds[i];
@@ -65,7 +65,7 @@ namespace ReactUI
                     uIVariable.OnValueInitialized += RefreshText;
                     uIVariable.OnValueChanged += RefreshText;
                     uIVariable.AddBind(this);
-                    m_bindVariable[i] = uIVariable;
+                    _bindVariable[i] = uIVariable;
                 }
             }
             RefreshText();
@@ -73,11 +73,11 @@ namespace ReactUI
 
         protected override void UnbindVariables()
         {
-            if (m_bindVariable == null)
+            if (_bindVariable == null)
             {
                 return;
             }
-            UIVariable[] array = m_bindVariable;
+            UIVariable[] array = _bindVariable;
             foreach (UIVariable uIVariable in array)
             {
                 if (uIVariable != null)
@@ -87,23 +87,23 @@ namespace ReactUI
                     uIVariable.RemoveBind(this);
                 }
             }
-            m_bindVariable = null;
+            _bindVariable = null;
         }
 
         [SerializeField]
         string sepForArrayValue = " ";
         private void RefreshText()
         {
-            if (m_text == null)
+            if (_text == null)
             {
-                m_text = GetComponent<TextMeshProUGUI>();
-                if (unityText == null)
+                _text = GetComponent<TextMeshProUGUI>();
+                if (_unityText == null)
                 {
-                    unityText = GetComponent<Text>();
+                    _unityText = GetComponent<Text>();
                 }
             }
 
-            if ((m_text == null && unityText == null) || paramBinds == null || m_bindVariable == null)
+            if ((_text == null && _unityText == null) || paramBinds == null || _bindVariable == null)
             {
                 return;
             }
@@ -114,7 +114,7 @@ namespace ReactUI
                 {
                     return;
                 }
-                UIVariable variable = m_bindVariable[0];
+                UIVariable variable = _bindVariable[0];
                 if (variable != null)
                 {
                     if (variable.Type == UIVariableType.Array)
@@ -129,13 +129,13 @@ namespace ReactUI
                                 sb.Append(v.ToString()).Append(sepForArrayValue);
                             }
                         }
-                        if (m_text)
+                        if (_text)
                         {
-                            m_text.text = (sb.ToString());
+                            _text.text = (sb.ToString());
                         }
-                        if (unityText)
+                        if (_unityText)
                         {
-                            unityText.text = (sb.ToString());
+                            _unityText.text = (sb.ToString());
                         }
                     }
                     else
@@ -143,33 +143,33 @@ namespace ReactUI
                         object valueObject = variable.ValueObject;
                         if (valueObject != null)
                         {
-                            if (m_text)
+                            if (_text)
                             {
                                 if (setTextNotKey)
                                 {
-                                    m_text.text = valueObject.ToString();
+                                    _text.text = valueObject.ToString();
                                 }
                                 else
                                 {
-                                    m_text.text = valueObject.ToString();
+                                    _text.text = valueObject.ToString();
                                 }
                             }
-                            if (unityText)
+                            if (_unityText)
                             {
                                 string text = valueObject.ToString();
-                                unityText.text = text;
+                                _unityText.text = text;
                             }
                             //m_text.text = (valueObject.ToString());
                         }
                         else
                         {
-                            if (m_text)
+                            if (_text)
                             {
-                                m_text.text = String.Empty;
+                                _text.text = String.Empty;
                             }
-                            if (unityText)
+                            if (_unityText)
                             {
-                                unityText.text = String.Empty;
+                                _unityText.text = String.Empty;
                             }
                         }
                     }
@@ -179,7 +179,7 @@ namespace ReactUI
             object[] array = new object[paramBinds.Length];
             for (int i = 0; i < paramBinds.Length; i++)
             {
-                UIVariable uIVariable2 = m_bindVariable[i];
+                UIVariable uIVariable2 = _bindVariable[i];
                 if (uIVariable2 != null)
                 {
                     if (uIVariable2.Type == UIVariableType.String)
@@ -195,14 +195,14 @@ namespace ReactUI
             try
             {
                 //m_text.SetLoc(valueObject.ToString());
-                if (m_text)
+                if (_text)
                 {
-                    m_text.text = string.Format(format, array);
+                    _text.text = string.Format(format, array);
                 }
-                if (unityText)
+                if (_unityText)
                 {
                     string text = string.Format(format, array);
-                    unityText.text = text;
+                    _unityText.text = text;
                 }
             }
             catch (FormatException ex)
@@ -217,8 +217,8 @@ namespace ReactUI
         private new void Awake()
         {
             base.Awake();
-            m_text = GetComponent<TextMeshProUGUI>();
-            unityText = GetComponent<Text>();
+            _text = GetComponent<TextMeshProUGUI>();
+            _unityText = GetComponent<Text>();
         }
     }
 }
