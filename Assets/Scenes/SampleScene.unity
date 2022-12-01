@@ -412,6 +412,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104689815}
   m_CullTransparentMesh: 1
+--- !u!1 &407445068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8932302860120252202, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
+  m_PrefabInstance: {fileID: 5091018152089951868}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &415815857
 GameObject:
   m_ObjectHideFlags: 0
@@ -2339,6 +2344,10 @@ PrefabInstance:
       propertyPath: variables.Array.data[3].integerValue
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4325260016188382895, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
+      propertyPath: variables.Array.data[5].booleanValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8207963558906864988, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
       propertyPath: eventTable
       value: 
@@ -2346,6 +2355,10 @@ PrefabInstance:
     - target: {fileID: 8932302860120252202, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
       propertyPath: m_Name
       value: YourRank
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932302860120252202, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8932302860120252205, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
       propertyPath: m_Pivot.x
@@ -2438,6 +2451,41 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8932302860120252205, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
   m_PrefabInstance: {fileID: 5091018152089951868}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5091018152089951870 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4325260016188382895, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
+  m_PrefabInstance: {fileID: 5091018152089951868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407445068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a66573643f43c0930bfd12b91a1f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5091018152089951873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407445068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754faa27ef8a4e0796c0726ee5dde383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableTable: {fileID: 5091018152089951870}
+  booleanLogic: 0
+  variables:
+  - variableName: ShowFlag
+    compareMode: 0
+    referenceInt: 0
+    referenceFloat: 0
+    referenceVariableName: 
+    reverse: 0
+  reverse: 0
+  transitionMode: 0
+  transitionTime: 0.1
 --- !u!222 &6653867488027450016
 CanvasRenderer:
   m_ObjectHideFlags: 0
