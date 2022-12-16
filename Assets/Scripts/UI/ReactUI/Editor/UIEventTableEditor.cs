@@ -60,31 +60,31 @@ namespace ReactUI
         {
             if (target != null)
             {
-                SerializedObject serializedObject = ((Editor)this).serializedObject;
+                SerializedObject serializedObject = this.serializedObject;
                 _eventsProp = serializedObject.FindProperty("events");
                 _list = new ReorderableList(serializedObject, _eventsProp);
-                _list.drawHeaderCallback = (HeaderCallbackDelegate)(object)(HeaderCallbackDelegate)delegate(Rect P_0)
+                _list.drawHeaderCallback = delegate(Rect position)
                 {
-                    GUI.Label(P_0, "Events:");
+                    GUI.Label(position, "Events:");
                 };
                 _list.elementHeightCallback =
-                    (ElementHeightCallbackDelegate)(object)(ElementHeightCallbackDelegate)((int P_0) =>
-                        GetHeight(_eventsProp, P_0));
-                _list.drawElementCallback = delegate(Rect P_0, int P_1, bool P_2, bool P_3)
+                    index =>
+                        GetHeight(_eventsProp, index);
+                _list.drawElementCallback = delegate(Rect rect, int index, bool isActive, bool isFocused)
                 {
-                    DrawOneVariable(_eventsProp, P_0, P_1, P_2, P_3);
+                    DrawOneVariable(_eventsProp, rect, index, isActive, isFocused);
                 };
                 Init();
             }
         }
 
-        private float GetHeight(SerializedProperty P_0, int P_1)
+        private float GetHeight(SerializedProperty property, int index)
         {
-            if (P_0.arraySize == 0)
+            if (property.arraySize == 0)
             {
                 return 0;
             }
-            SerializedProperty arrayElementAtIndex = P_0.GetArrayElementAtIndex(P_1);
+            SerializedProperty arrayElementAtIndex = property.GetArrayElementAtIndex(index);
             if (!arrayElementAtIndex.isExpanded)
             {
                 return EditorGUIUtility.singleLineHeight;
@@ -97,22 +97,22 @@ namespace ReactUI
                 return EditorGUIUtility.singleLineHeight;
             }
 
-            return (float)(1 + collection.Count) * EditorGUIUtility.singleLineHeight;
+            return (1 + collection.Count) * EditorGUIUtility.singleLineHeight;
         }
 
-        private void DrawOneVariable(SerializedProperty P_0, Rect P_1, int P_2, bool P_3, bool P_4)
+        private void DrawOneVariable(SerializedProperty property, Rect rect, int index, bool isActive, bool isFocused)
         {
-            SerializedProperty arrayElementAtIndex = P_0.GetArrayElementAtIndex(P_2);
-            bool flag = _setIdx.Contains(P_2);
+            SerializedProperty arrayElementAtIndex = property.GetArrayElementAtIndex(index);
+            bool flag = _setIdx.Contains(index);
             Color color = GUI.color;
             if (flag)
             {
                 GUI.color = new Color(1f, 0.5f, 0.5f, 1f);
             }
 
-            Rect rect = new Rect(P_1.x + 8f, P_1.y, 16f, EditorGUIUtility.singleLineHeight);
-            Rect rect2 = new Rect(P_1.x + 12f, P_1.y, P_1.width - 12f, EditorGUIUtility.singleLineHeight);
-            arrayElementAtIndex.isExpanded = (EditorGUI.Foldout(rect, arrayElementAtIndex.isExpanded, GUIContent.none));
+            Rect rect1 = new Rect(rect.x + 8f, rect.y, 16f, EditorGUIUtility.singleLineHeight);
+            Rect rect2 = new Rect(rect.x + 12f, rect.y, rect.width - 12f, EditorGUIUtility.singleLineHeight);
+            arrayElementAtIndex.isExpanded = (EditorGUI.Foldout(rect1, arrayElementAtIndex.isExpanded, GUIContent.none));
             EditorGUI.PropertyField(rect2, arrayElementAtIndex, GUIContent.none);
             if (arrayElementAtIndex.isExpanded)
             {
@@ -121,11 +121,11 @@ namespace ReactUI
                 if (collection != null)
                 {
                     GUI.enabled = false;
-                    Rect rect3 = new Rect(P_1.x + 12f, P_1.y, P_1.width - 12f, EditorGUIUtility.singleLineHeight);
+                    Rect rect3 = new Rect(rect.x + 12f, rect.y, rect.width - 12f, EditorGUIUtility.singleLineHeight);
                     foreach (Component item in collection)
                     {
                         rect3.y += EditorGUIUtility.singleLineHeight;
-                        EditorGUI.ObjectField(rect3, (UnityEngine.Object)item, item.GetType(), true);
+                        EditorGUI.ObjectField(rect3, item, item.GetType(), true);
                     }
 
                     GUI.enabled = true;
@@ -158,63 +158,63 @@ namespace ReactUI
     [CustomPropertyDrawer(typeof(EventNameAttribute))]
     class EventNameAttributeDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect P_0, SerializedProperty P_1, GUIContent P_2)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent content)
         {
-            EditorGUI.BeginProperty(P_0, P_2, P_1);
-            UIEventBind val = (UIEventBind)P_1.serializedObject.targetObject;
+            EditorGUI.BeginProperty(position, content, property);
+            UIEventBind val = (UIEventBind)property.serializedObject.targetObject;
             if (val != null)
             {
                 UIEventTable eventTable = val.EventTable;
                 if (eventTable != null)
                 {
-                    Rect rect = new Rect(P_0.x, P_0.y, P_0.width * 0.39f, P_0.height);
-                    Rect rect2 = new Rect(P_0.x + P_0.width * 0.39f, P_0.y, P_0.width * 0.61f, P_0.height);
-                    EditorGUI.PrefixLabel(rect, GUIUtility.GetControlID(FocusType.Passive), P_2);
+                    Rect rect = new Rect(position.x, position.y, position.width * 0.39f, position.height);
+                    Rect rect2 = new Rect(position.x + position.width * 0.39f, position.y, position.width * 0.61f, position.height);
+                    EditorGUI.PrefixLabel(rect, GUIUtility.GetControlID(FocusType.Passive), content);
                     string[] events = eventTable.Events;
                     if (events != null)
                     {
                         string[] array = new string[events.Length + 1];
                         Array.Copy(events, array, events.Length);
                         array[events.Length] = "None";
-                        int num = Array.FindIndex(events, (string name) => name == P_1.stringValue);
+                        int num = Array.FindIndex(events, (string name) => name == property.stringValue);
                         int num2 = EditorGUI.Popup(rect2, num, array);
                         if (num2 != num && num2 >= 0)
                         {
                             if (num2 < events.Length)
                             {
-                                P_1.stringValue = (events[num2]);
+                                property.stringValue = (events[num2]);
                             }
                             else
                             {
-                                P_1.stringValue = (string.Empty);
+                                property.stringValue = (string.Empty);
                             }
                         }
                     }
                     else
                     {
                         GUI.enabled = false;
-                        EditorGUI.PropertyField(P_0, P_1);
+                        EditorGUI.PropertyField(position, property);
                         GUI.enabled = true;
                     }
                 }
                 else
                 {
                     GUI.enabled = false;
-                    EditorGUI.PropertyField(P_0, P_1);
+                    EditorGUI.PropertyField(position, property);
                     GUI.enabled = true;
                 }
             }
             else
             {
                 GUI.enabled = false;
-                EditorGUI.PropertyField(P_0, P_1);
+                EditorGUI.PropertyField(position, property);
                 GUI.enabled = true;
             }
 
             EditorGUI.EndProperty();
         }
 
-        public override float GetPropertyHeight(SerializedProperty P_0, GUIContent P_1)
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent content)
         {
             return 1f * EditorGUIUtility.singleLineHeight;
         }

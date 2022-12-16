@@ -90,13 +90,13 @@ namespace ReactUI
             {
                 _variables = serializedObject.FindProperty("variables");
                 list = (ReorderableList)(object)new ReorderableList(serializedObject, _variables);
-                list.drawHeaderCallback = delegate(Rect P_0) { GUI.Label(P_0, "Variables:"); };
+                list.drawHeaderCallback = delegate(Rect position) { GUI.Label(position, "Variables:"); };
                 list.elementHeightCallback =
-                    (ElementHeightCallbackDelegate)(object)(ElementHeightCallbackDelegate)((int P_0) =>
-                        GetHeight(_variables, P_0));
-                list.drawElementCallback = delegate(Rect P_0, int P_1, bool P_2, bool P_3)
+                    (ElementHeightCallbackDelegate)(object)(ElementHeightCallbackDelegate)((int index) =>
+                        GetHeight(_variables, index));
+                list.drawElementCallback = delegate(Rect rect, int index, bool isActive, bool isFocused)
                 {
-                    DrawOneVariable(_variables, P_0, P_1, P_2, P_3);
+                    DrawOneVariable(_variables, rect, index, isActive, isFocused);
                 };
                 list.onAddCallback = delegate
                 {
@@ -108,17 +108,17 @@ namespace ReactUI
             }
         }
 
-        private float GetHeight(SerializedProperty P_0, int P_1)
+        private float GetHeight(SerializedProperty property, int index)
         {
-            if (!_propMap.TryGetValue(P_1, out SerializedProperty value))
+            if (!_propMap.TryGetValue(index, out SerializedProperty value))
             {
-                if (P_0.arraySize == 0)
+                if (property.arraySize == 0)
                 {
                     return 0;
                 }
 
-                value = P_0.GetArrayElementAtIndex(P_1);
-                _propMap.Add(P_1, value);
+                value = property.GetArrayElementAtIndex(index);
+                _propMap.Add(index, value);
             }
 
             if (!value.isExpanded)
@@ -126,21 +126,21 @@ namespace ReactUI
                 return 2f * EditorGUIUtility.singleLineHeight;
             }
 
-            UIVariableTable val = (UIVariableTable)(object)(UIVariableTable)target;
-            UIVariable variable = val.GetVariable(P_1);
+            UIVariableTable val = (UIVariableTable)target;
+            UIVariable variable = val.GetVariable(index);
             ICollection<UIVariableBind> binds = variable.Binds;
-            return (float)(2 + binds.Count) * EditorGUIUtility.singleLineHeight;
+            return (2 + binds.Count) * EditorGUIUtility.singleLineHeight;
         }
 
-        private void DrawOneVariable(SerializedProperty P_0, Rect P_1, int P_2, bool P_3, bool P_4)
+        private void DrawOneVariable(SerializedProperty property, Rect position, int index, bool isActive, bool isFocused)
         {
-            if (!_propMap.TryGetValue(P_2, out SerializedProperty value))
+            if (!_propMap.TryGetValue(index, out SerializedProperty value))
             {
-                value = P_0.GetArrayElementAtIndex(P_2);
-                _propMap.Add(P_2, value);
+                value = property.GetArrayElementAtIndex(index);
+                _propMap.Add(index, value);
             }
 
-            bool flag = _nameSet.Contains(P_2);
+            bool flag = _nameSet.Contains(index);
             Color color = GUI.color;
             if (flag)
             {
@@ -149,14 +149,14 @@ namespace ReactUI
 
             SerializedProperty val = value.FindPropertyRelative("name");
             SerializedProperty val2 = value.FindPropertyRelative("type");
-            Rect rect = new Rect(P_1.x + 8f, P_1.y, 16f, EditorGUIUtility.singleLineHeight);
-            Rect rect2 = new Rect(P_1.x + 12f, P_1.y, (P_1.width - 12f) / 2f - 5f, EditorGUIUtility.singleLineHeight);
-            Rect rect3 = new Rect(P_1.x + P_1.width / 2f + 5f, P_1.y, (P_1.width - 12f) / 2f - 5f,
+            Rect rect = new Rect(position.x + 8f, position.y, 16f, EditorGUIUtility.singleLineHeight);
+            Rect rect2 = new Rect(position.x + 12f, position.y, (position.width - 12f) / 2f - 5f, EditorGUIUtility.singleLineHeight);
+            Rect rect3 = new Rect(position.x + position.width / 2f + 5f, position.y, (position.width - 12f) / 2f - 5f,
                 EditorGUIUtility.singleLineHeight);
             value.isExpanded = (EditorGUI.Foldout(rect, value.isExpanded, GUIContent.none));
             EditorGUI.PropertyField(rect2, val, GUIContent.none);
             EditorGUI.PropertyField(rect3, val2, GUIContent.none);
-            Rect rect4 = new Rect(P_1.x + 12f, P_1.y + EditorGUIUtility.singleLineHeight, P_1.width - 12f,
+            Rect rect4 = new Rect(position.x + 12f, position.y + EditorGUIUtility.singleLineHeight, position.width - 12f,
                 EditorGUIUtility.singleLineHeight);
             SerializedProperty val3 = null;
             UIVariableType val4 = (UIVariableType)val2.enumValueIndex;
@@ -183,12 +183,12 @@ namespace ReactUI
             if (value.isExpanded)
             {
                 UIVariableTable val5 = (UIVariableTable)(object)(UIVariableTable)target;
-                UIVariable variable = val5.GetVariable(P_2);
+                UIVariable variable = val5.GetVariable(index);
                 ICollection<UIVariableBind> binds = variable.Binds;
                 if (binds.Count > 0)
                 {
                     GUI.enabled = false;
-                    Rect rect5 = new Rect(P_1.x + 12f, P_1.y + EditorGUIUtility.singleLineHeight, P_1.width - 12f,
+                    Rect rect5 = new Rect(position.x + 12f, position.y + EditorGUIUtility.singleLineHeight, position.width - 12f,
                         EditorGUIUtility.singleLineHeight);
                     foreach (UIVariableBind item in binds)
                     {

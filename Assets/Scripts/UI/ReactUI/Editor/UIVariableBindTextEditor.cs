@@ -54,7 +54,7 @@ namespace ReactUI
             return 1f * EditorGUIUtility.singleLineHeight;
         }
 
-        private void DrawTable(Rect P_0, SerializedProperty propVar, GUIContent ctx, UIVariableTable table)
+        private void DrawTable(Rect position, SerializedProperty propVar, GUIContent ctx, UIVariableTable table)
         {
             string[] varNameList = table.GetVariableNames();
             VariableNameAttribute val = (VariableNameAttribute)this.attribute;
@@ -105,8 +105,8 @@ namespace ReactUI
             }
 
             ////////////////////////////////
-            Rect rect = new Rect(P_0.x, P_0.y, P_0.width * 0.39f, P_0.height);
-            Rect rect2 = new Rect(P_0.x + P_0.width * 0.39f, P_0.y, P_0.width * 0.61f, P_0.height);
+            Rect rect = new Rect(position.x, position.y, position.width * 0.39f, position.height);
+            Rect rect2 = new Rect(position.x + position.width * 0.39f, position.y, position.width * 0.61f, position.height);
             EditorGUI.PrefixLabel(rect, GUIUtility.GetControlID(FocusType.Passive), ctx);
             int num = list.IndexOf(propVar.stringValue);
             list.Add("None");
@@ -141,15 +141,15 @@ namespace ReactUI
         {
             UIVariableBind val = (UIVariableBind)target;
             UIVariableTable variableTable = val.VariableTable;
-            if ((UnityEngine.Object)(object)variableTable == null)
+            if (variableTable == null)
             {
                 EditorGUILayout.HelpBox("There is no EventTable in parent.", (MessageType)3);
             }
 
             serializedObject.Update();
-            EditorGUILayout.PropertyField(_variableTable, new GUILayoutOption[0]);
-            EditorGUILayout.PropertyField(_format, new GUILayoutOption[0]);
-            EditorGUILayout.PropertyField(_setTextNotKey, new GUILayoutOption[0]);
+            EditorGUILayout.PropertyField(_variableTable);
+            EditorGUILayout.PropertyField(_format);
+            EditorGUILayout.PropertyField(_setTextNotKey);
             _list.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
         }
@@ -161,18 +161,18 @@ namespace ReactUI
             _setTextNotKey = serializedObject.FindProperty("setTextNotKey");
             _format = serializedObject.FindProperty("format");
             _paramBinds = serializedObject.FindProperty("paramBinds");
-            _list = (ReorderableList)(object)new ReorderableList(serializedObject, _paramBinds);
-            _list.drawHeaderCallback = (HeaderCallbackDelegate)(object)(HeaderCallbackDelegate)delegate(Rect P_0)
+            _list = new ReorderableList(serializedObject, _paramBinds);
+            _list.drawHeaderCallback = delegate(Rect P_0)
             {
                 GUI.Label(P_0, "Param Binds:");
             };
             _list.elementHeight = 1f * EditorGUIUtility.singleLineHeight;
             _list.drawElementCallback =
-                (ElementCallbackDelegate)(object)(ElementCallbackDelegate)delegate(Rect P_0, int P_1, bool P_2,
-                    bool P_3)
+                delegate(Rect position, int index, bool isActive,
+                    bool isFocused)
                 {
-                    SerializedProperty arrayElementAtIndex = _paramBinds.GetArrayElementAtIndex(P_1);
-                    EditorGUI.PropertyField(P_0, arrayElementAtIndex);
+                    SerializedProperty arrayElementAtIndex = _paramBinds.GetArrayElementAtIndex(index);
+                    EditorGUI.PropertyField(position, arrayElementAtIndex);
                 };
         }
     }
