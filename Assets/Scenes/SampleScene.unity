@@ -2341,6 +2341,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 6653867489923427097}
     m_Modifications:
     - target: {fileID: 4325260016188382895, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
+      propertyPath: variables.Array.data[2].stringValue
+      value: Star
+      objectReference: {fileID: 0}
+    - target: {fileID: 4325260016188382895, guid: cfb9737574ad3644a8f0442e5f38a1b6, type: 3}
       propertyPath: variables.Array.data[3].integerValue
       value: 2
       objectReference: {fileID: 0}

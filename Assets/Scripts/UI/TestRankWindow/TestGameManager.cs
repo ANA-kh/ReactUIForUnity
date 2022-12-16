@@ -15,12 +15,12 @@ namespace UI
                 "Add Icon","Bell", "Coin", "Facebook", "Gem",
                 "Info", "Inventory", "Star","World"
             };
-            var rankData = new List<UIRankWindowController.RankItemData>();
+            var rankData = new List<RankItemData>();
             for (int i = 0; i < 15; i++)
             {
                 var levelRandom = Random.Range(1, 5);
                 var level = (14 - i) * 5 + levelRandom;
-                rankData.Add(new UIRankWindowController.RankItemData()
+                rankData.Add(new RankItemData()
                 {
                     RankNum = i + 1,
                     UserIcon = icoNames[i%9],

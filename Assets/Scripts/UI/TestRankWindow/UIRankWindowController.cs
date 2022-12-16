@@ -12,17 +12,7 @@ namespace UI
         UIVariable var_Title;
         [AutoBindVariable]
         UIVariable var_Users;
-        
-        public class RankItemData
-        {
-            public int RankNum;
-            public string UserIcon;
-            public string UserName;
-            public int Level;
-            public int LevelPoints;
-            public bool ShowFlag;
-        }
-        
+
         [AutoBindEvent]
         void event_OnUserButtonClicked(params object[] args)
         {
