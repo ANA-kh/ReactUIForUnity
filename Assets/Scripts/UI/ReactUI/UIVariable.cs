@@ -43,7 +43,7 @@ namespace ReactUI
         [SerializeField]
         private object objectValue;
 
-        //binderList只用于显示和点击后快速聚焦绑定的对象
+        //binderList只用于显示绑定的对象和点击后快速聚焦
         private List<UIVariableBind> binderList = new List<UIVariableBind>();
 
         private Action actionOnValueChanged;

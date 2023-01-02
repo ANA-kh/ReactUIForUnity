@@ -28,8 +28,7 @@ class UIVariableTable
 abstract class UIVariableBind
 {
 -UIVariableTable _variableTable
-+UIVariableTable FindCustomParentTable(string name)
-+UIVariable FindVariable(string name)
+
 #{abstract} void BindVariables()
 #{abstract} void UnbindVariables()
 }
@@ -43,10 +42,10 @@ class UIVariableBindText
 }
 
 skinparam groupInheritance 2
-UIVariable o-left- UIVariableBind
+UIVariable *-left- UIVariableBind
 UIVariableTable o-down- UIVariable
 UIVariableBind *-- UIVariable
-UIVariableBind "1"*-up- UIVariableTable
+UIVariableBind *-up- UIVariableTable
 UIVariableBindText -up-|> UIVariableBind
 
 
