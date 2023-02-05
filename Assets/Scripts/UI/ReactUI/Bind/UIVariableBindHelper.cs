@@ -38,8 +38,8 @@ namespace ReactUI
         
         /*
          TODO 突发奇想 考虑不使用运行时反射绑定，在非运行时通过反射生成绑定的样板代码参考UIHudLootView。
-        思路是反射获取名字，生成类似var_item = UIVariableTable.FindVariable("item") 代码;
-        或许有性能提升，待实验
+              思路是反射获取名字，生成类似var_item = UIVariableTable.FindVariable("item") 代码;
+              或许有性能提升，待实验
         */
         public static void AutoBind(object obj, GameObject view, Type baseClass = null)
         {

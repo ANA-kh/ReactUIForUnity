@@ -42,10 +42,10 @@ class UIVariableBindText
 }
 
 skinparam groupInheritance 2
-UIVariable *-left- UIVariableBind
+UIVariable o-left- "n" UIVariableBind
 UIVariableTable o-down- UIVariable
 UIVariableBind *-- UIVariable
-UIVariableBind *-up- UIVariableTable
+UIVariableBind -up-> UIVariableTable
 UIVariableBindText -up-|> UIVariableBind
 
 
